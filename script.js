@@ -12,7 +12,7 @@ function padLeadingZeros(num, size) {
 // Website where data originally comes from. 
 const dataSource = "TVMaze.com";
 
-//  Add link back to original site.
+// Create footer and add link back to original site.
 let footerElement = document.createElement("footer");
 document.body.appendChild(footerElement);
 footerElement.innerHTML = `The data originally comes from ${dataSource.link("https://www.tvmaze.com/shows/82/game-of-thrones")}`;
@@ -26,21 +26,15 @@ function setup() {
 //  Given source code.
 function makePageForEpisodes(episodeList) {
   const rootElem = document.getElementById("root");
-  rootElem.textContent = `Got ${episodeList.length} episode(s)`;
+  rootElem.textContent = `Got ${episodeList.length} episode(s)`;  
   
-  
-  //  Looping through the episode list.
+  //  Looping through the episode in the list.
   episodeList.forEach(episodeInList => {
-    // console.log("Episode Name:", episodeInList.name);
-    // console.log("Episode Season",episodeInList.season);
-    // console.log("Episode Number",episodeInList.number);
-    // console.log("Episode Medium Image",episodeInList.image.medium);
     
-    //  Create div for a card.
+    //  Create div for the card.
     let cardDiv = document.createElement("div");
     rootElem.appendChild(cardDiv);
     cardDiv.className = "card";
-    // console.log("This is my cardDiv", cardDiv);
     
     //  Create a div with class of container for styling later.
     let containerDiv = document.createElement("div");
@@ -62,7 +56,6 @@ function makePageForEpisodes(episodeList) {
     let paragraphElement = document.createElement("p");
     containerDiv.appendChild(paragraphElement);
     paragraphElement.innerHTML = episodeInList.summary;    
-  })
-  
+  })  
 };
 window.onload = setup;
