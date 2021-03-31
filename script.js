@@ -10,12 +10,12 @@ function padLeadingZeros(num, size) {
 }
 
 // Website where data originally comes from. 
-const dataSource = "TVMaze.com";
+const dataSource = "TMaze.com";
 
 // Create footer and add link back to original site.
 let footerElement = document.createElement("footer");
 document.body.appendChild(footerElement);
-footerElement.innerHTML = `The data originally comes from ${dataSource.link("https://www.tvmaze.com/shows/82/game-of-thrones")}`;
+footerElement.innerHTML = `The data originally comes from <a href= "https://www.tvmaze.com/shows/82/game-of-thrones" target = "_blank">TvMaze</a>}`;
 
 //  Given source code.
 function setup() {
@@ -26,7 +26,7 @@ function setup() {
 //  Given source code.
 function makePageForEpisodes(episodeList) {
   const rootElem = document.getElementById("root");
-  rootElem.textContent = `Got ${episodeList.length} episode(s)`;  
+  // rootElem.textContent = `Got ${episodeList.length} episode(s)`;  
   
   //  Looping through the episode in the list.
   episodeList.forEach(episodeInList => {
