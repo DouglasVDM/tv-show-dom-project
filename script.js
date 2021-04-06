@@ -1,7 +1,22 @@
+// Add a Form for the Selector.
+let formForSelector = document.createElement("form");
+document.body.appendChild(formForSelector);
+
+// Add Episode Selector.
+let episodeSelector = document.createElement("select");
+episodeSelector.setAttribute("id", "episodeSelector");
+formForSelector.appendChild(episodeSelector);
+
+// Create episode cards.
 function createEpisodeCard(rootElem, episodeInList) {
   let cardDiv = document.createElement("div");
   rootElem.appendChild(cardDiv);
   cardDiv.className = "card";
+
+  // Add Option for Selector.
+  let selectorOption = document.createElement("option");
+  episodeSelector.appendChild(selectorOption);
+  selectorOption.textContent = `S${padLeadingZeros(episodeInList.season, 2)}E${padLeadingZeros(episodeInList.number, 2)} - ${episodeInList.name}`;
 
   //  Create a div with class of container for styling later.
   let containerDiv = document.createElement("div");
@@ -81,7 +96,8 @@ function makePageForEpisodes(episodeList) {
   episodeList.forEach(episodeInList => {
         
     //  Create div for the card.
-    createEpisodeCard(rootElem, episodeInList);    
+    createEpisodeCard(rootElem, episodeInList);
+    
   })    
 };  
 window.onload = setup;
