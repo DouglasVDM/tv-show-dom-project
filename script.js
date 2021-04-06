@@ -47,10 +47,12 @@ function createEpisodeCard(rootElem, episodeInList) {
 //Zero-pad numbers to two digits.
 function padLeadingZeros(num, size) {
   let smallNumber = "" + num;
-  while (smallNumber.length < size) {
+  if (smallNumber.length < size) {
     smallNumber = "0" + smallNumber;
     return smallNumber;
-  }  
+  } else {
+    return smallNumber
+  }
 }  
 
 // Website where data originally comes from. 
