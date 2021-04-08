@@ -38,12 +38,12 @@ function createEpisodeCard(rootElem, episodeInList) {
   paragraphElement.innerHTML = episodeInList.summary;
 }
 
-//  add Option.
-function addOption(episodeInList) {
+//  add Option.episodeInList
+function addOption({season,number,name}) {  // Object destructuring. pass in the episode object but I need only these 3 keys.
   let selectorOption = document.createElement("option");
   episodeSelector.appendChild(selectorOption);
-  selectorOption.setAttribute("value", `${episodeInList.season}-${episodeInList.number}`)
-  selectorOption.textContent = `S${padLeadingZeros(episodeInList.season, 2)}E${padLeadingZeros(episodeInList.number, 2)} - ${episodeInList.name}`;
+  selectorOption.setAttribute("value", `${season}-${number}`)
+  selectorOption.textContent = `S${padLeadingZeros(season, 2)}E${padLeadingZeros(number, 2)} - ${name}`;
 }
 
 //You can edit ALL of the code here
