@@ -98,14 +98,18 @@ function selectEpisode(element) {
   const selectedEpisode = selected.substring(selected.indexOf("-") + 1);
   console.log(selectedEpisode);
   
-  const allEpisodes = getAllEpisodes().filter(episode => {
-    // console.log(episode);
-    return episode.season === parseInt(selectedSeason)
-      &&
-      episode.number === parseInt(selectedEpisode)
-  });
+  let allEpisodes = getAllEpisodes();
+  
+  if (parseInt(selectedSeason) !== 0 && parseInt(selectedEpisode) !== 0) {     
+    allEpisodes = allEpisodes.filter(episode => {
+      // console.log(episode);
+      return episode.season === parseInt(selectedSeason)
+        &&
+        episode.number === parseInt(selectedEpisode)
+    });
+  }
 
-  console.log(allEpisodes.length);
+  // console.log(allEpisodes.length);
     makePageForEpisodes(allEpisodes);
 } 
 
@@ -126,7 +130,11 @@ function makePageForEpisodes(episodeList) {
   const rootElem = document.getElementById("root");
   rootElem.innerHTML = "";
   // rootElem.textContent = `Got ${episodeList.length} episode(s)`;  
+
+  addOption({ season: 0, number: 0, name: "Show all episodes" });
   
+
+
   //  Looping through the episode in the list.
   episodeList.forEach(episodeInList => {
         
