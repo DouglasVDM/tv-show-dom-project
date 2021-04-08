@@ -7,7 +7,8 @@ let episodeSelector = document.createElement("select");
 episodeSelector.setAttribute("id", "episodeSelector");
 formForSelector.appendChild(episodeSelector);
 
-// Create episode cards.
+
+// Function to create Episode Cards.
 function createEpisodeCard(rootElem, episodeInList) {
   let cardDiv = document.createElement("div");
   rootElem.appendChild(cardDiv);
@@ -66,6 +67,7 @@ footerElement.innerHTML = `The data originally comes from
 TvMaze
 </a>}`;
 
+
 //  Given source code.
 function searchForEpisode(element) {
   console.log("this is element",element.target.value);
@@ -78,7 +80,8 @@ function searchForEpisode(element) {
 
   const rootElem = document.getElementById("root");  
   makePageForEpisodes(allEpisodes);
-}  
+}
+
 
 function setup() {
   const allEpisodes = getAllEpisodes();
@@ -86,7 +89,8 @@ function setup() {
   
   const input = document.querySelector('input');
   input.addEventListener('input', searchForEpisode); 
-}  
+}
+
 
 //  Given source code.
 function makePageForEpisodes(episodeList) {
