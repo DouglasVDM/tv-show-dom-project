@@ -11,7 +11,9 @@ function createEpisodeCard(rootElem, episodeInList) {
   let cardDiv = document.createElement("div");
   rootElem.appendChild(cardDiv);
   cardDiv.className = "card";
-
+  
+  cardDiv.setAttribute("id", `${episodeInList.season}-${episodeInList.number}`);
+  
   //  Create a div with class of container for styling later.
   let containerDiv = document.createElement("div");
   cardDiv.appendChild(containerDiv);
@@ -40,6 +42,7 @@ function createEpisodeCard(rootElem, episodeInList) {
 function addOption(episodeInList) {
   let selectorOption = document.createElement("option");
   episodeSelector.appendChild(selectorOption);
+  selectorOption.setAttribute("value", `${episodeInList.season}-${episodeInList.number}`)
   selectorOption.textContent = `S${padLeadingZeros(episodeInList.season, 2)}E${padLeadingZeros(episodeInList.number, 2)} - ${episodeInList.name}`;
 }
 
@@ -83,12 +86,21 @@ function searchForEpisode(element) {
 }
 
 
+function selectEpisode(element) {
+  console.log(element.target.value);
+  document.getElementById(element.target.value).focus();
+} 
+
+
 function setup() {
   const allEpisodes = getAllEpisodes();
   makePageForEpisodes(allEpisodes);
   
   const input = document.querySelector('input');
-  input.addEventListener('input', searchForEpisode); 
+  input.addEventListener('input', searchForEpisode);
+  
+  episodeSelector.addEventListener('change', selectEpisode);
+  
 }
 
 
