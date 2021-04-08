@@ -99,13 +99,13 @@ function selectEpisode(element) {
   console.log(selectedEpisode);
   
   const allEpisodes = getAllEpisodes().filter(episode => {
-    console.log(episode);
-    return episode.season == selectedSeason
+    // console.log(episode);
+    return episode.season === parseInt(selectedSeason)
       &&
-      episode.number == selectedEpisode
+      episode.number === parseInt(selectedEpisode)
   });
 
-  // console.log(allEpisodes.length);
+  console.log(allEpisodes.length);
     makePageForEpisodes(allEpisodes);
 } 
 
