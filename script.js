@@ -85,10 +85,10 @@ function searchForEpisode(element) {
   makePageForEpisodes(allEpisodes);
 }
 
-
+//  Callback for select option
 function selectEpisode(element) {
   console.log(element.target.value);
-  document.getElementById(element.target.value).focus();
+  document.getElementById(element.target.value).scrollIntoView();
 } 
 
 
@@ -99,8 +99,7 @@ function setup() {
   const input = document.querySelector('input');
   input.addEventListener('input', searchForEpisode);
   
-  episodeSelector.addEventListener('change', selectEpisode);
-  
+  episodeSelector.addEventListener('change', selectEpisode);  
 }
 
 
