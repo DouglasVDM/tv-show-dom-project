@@ -11,9 +11,7 @@ function createEpisodeCard(rootElem, episodeInList) {
   let cardDiv = document.createElement("div");
   rootElem.appendChild(cardDiv);
   cardDiv.className = "card";
-  
-  cardDiv.setAttribute("id", `${episodeInList.season}-${episodeInList.number}`);
-  
+
   //  Create a div with class of container for styling later.
   let containerDiv = document.createElement("div");
   cardDiv.appendChild(containerDiv);
@@ -38,12 +36,11 @@ function createEpisodeCard(rootElem, episodeInList) {
   paragraphElement.innerHTML = episodeInList.summary;
 }
 
-//  add Option.episodeInList
-function addOption({season,number,name}) {  // Object destructuring. pass in the episode object but I need only these 3 keys.
+//  add Option.
+function addOption(episodeInList) {
   let selectorOption = document.createElement("option");
   episodeSelector.appendChild(selectorOption);
-  selectorOption.setAttribute("value", `${season}-${number}`)
-  selectorOption.textContent = `S${padLeadingZeros(season, 2)}E${padLeadingZeros(number, 2)} - ${name}`;
+  selectorOption.textContent = `S${padLeadingZeros(episodeInList.season, 2)}E${padLeadingZeros(episodeInList.number, 2)} - ${episodeInList.name}`;
 }
 
 //You can edit ALL of the code here
@@ -85,39 +82,13 @@ function searchForEpisode(element) {
   makePageForEpisodes(allEpisodes);
 }
 
-//  Callback for select option
-function selectEpisode(element) {
-  console.log(element.target.value);
-
-  //To scroll to the selected episode.
-  // document.getElementById(element.target.value).scrollIntoView();
-
-  const selected = element.target.value;
-  const selectedSeason = selected.substring(0, selected.indexOf("-"));
-  console.log(selectedSeason);
-  const selectedEpisode = selected.substring(selected.indexOf("-") + 1);
-  console.log(selectedEpisode);
-  
-  const allEpisodes = getAllEpisodes().filter(episode => {
-    // console.log(episode);
-    return episode.season === parseInt(selectedSeason)
-      &&
-      episode.number === parseInt(selectedEpisode)
-  });
-
-  console.log(allEpisodes.length);
-    makePageForEpisodes(allEpisodes);
-} 
-
 
 function setup() {
   const allEpisodes = getAllEpisodes();
   makePageForEpisodes(allEpisodes);
   
   const input = document.querySelector('input');
-  input.addEventListener('input', searchForEpisode);
-  
-  episodeSelector.addEventListener('change', selectEpisode);  
+  input.addEventListener('input', searchForEpisode); 
 }
 
 
