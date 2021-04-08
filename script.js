@@ -88,7 +88,25 @@ function searchForEpisode(element) {
 //  Callback for select option
 function selectEpisode(element) {
   console.log(element.target.value);
-  document.getElementById(element.target.value).scrollIntoView();
+
+  //To scroll to the selected episode.
+  // document.getElementById(element.target.value).scrollIntoView();
+
+  const selected = element.target.value;
+  const selectedSeason = selected.substring(0, selected.indexOf("-"));
+  console.log(selectedSeason);
+  const selectedEpisode = selected.substring(selected.indexOf("-") + 1);
+  console.log(selectedEpisode);
+  
+  const allEpisodes = getAllEpisodes().filter(episode => {
+    console.log(episode);
+    return episode.season == selectedSeason
+      &&
+      episode.number == selectedEpisode
+  });
+
+  // console.log(allEpisodes.length);
+    makePageForEpisodes(allEpisodes);
 } 
 
 
