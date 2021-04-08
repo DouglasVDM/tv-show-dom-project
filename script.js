@@ -1,3 +1,7 @@
+// Add a Form for the Selector.
+// let formForSelector = document.createElement("form");
+// document.body.appendChild(formForSelector);
+
 // Add Episode Selector.
 let episodeSelector = document.getElementById("select-episode");
 
@@ -88,44 +92,20 @@ function selectEpisode(element) {
   //To scroll to the selected episode.
   // document.getElementById(element.target.value).scrollIntoView();
 
-  /*  SUBSTRING METHOD.
-  The substring() method extracts the characters from a string, 
-  between two specified indices, and returns the new sub string.
-  
-  This method extracts the characters in a string between
-  "start" and "end", not including "end" itself.
-
-  If "start" is greater than "end", this method will swap
-  the two arguments, meaning str.substring(1, 4) == str.substring(4, 1).
-
-  If either "start" or "end" is less than 0, it is treated as if it were 0.
-
-  Note: The substring() method does not change the original string.
-  */
   const selected = element.target.value;
   const selectedSeason = selected.substring(0, selected.indexOf("-"));
   console.log(selectedSeason);
   const selectedEpisode = selected.substring(selected.indexOf("-") + 1);
   console.log(selectedEpisode);
   
-  let allEpisodes = getAllEpisodes();
+  const allEpisodes = getAllEpisodes().filter(episode => {
+    // console.log(episode);
+    return episode.season === parseInt(selectedSeason)
+      &&
+      episode.number === parseInt(selectedEpisode)
+  });
 
-  /* PARSE INT
-  The parseInt() function parses a string and returns an integer.
-  The radix parameter is used to specify which numeral system to be used,
-  for example, a radix of 16 (hexadecimal) indicates that the number in the string
-  should be parsed from a hexadecimal number to a decimal number.
-  */  
-  if (parseInt(selectedSeason) !== 0 && parseInt(selectedEpisode) !== 0) {     
-    allEpisodes = allEpisodes.filter(episode => {
-      // console.log(episode);
-      return episode.season === parseInt(selectedSeason)
-        &&
-        episode.number === parseInt(selectedEpisode)
-    });
-  }
-
-  // console.log(allEpisodes.length);
+  console.log(allEpisodes.length);
     makePageForEpisodes(allEpisodes);
 } 
 
@@ -146,18 +126,14 @@ function makePageForEpisodes(episodeList) {
   const rootElem = document.getElementById("root");
   rootElem.innerHTML = "";
   // rootElem.textContent = `Got ${episodeList.length} episode(s)`;  
-
-  addOption({ season: 0, number: 0, name: "Show all episodes" });
   
-
-
   //  Looping through the episode in the list.
   episodeList.forEach(episodeInList => {
         
     //  Create div for the card.
     createEpisodeCard(rootElem, episodeInList);
 
-    // Add Option for every episode.
+    // Add Option for Selector.
     addOption(episodeInList);
     
   })    
