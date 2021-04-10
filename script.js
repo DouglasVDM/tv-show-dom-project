@@ -1,6 +1,7 @@
 // Add Episode Selector.
 let episodeSelector = document.getElementById("select-episode");
 
+let showSelector = document.getElementById("select-show");
 
 // Function to create Episode Cards.
 function createEpisodeCard(rootElem, episodeInList) {
