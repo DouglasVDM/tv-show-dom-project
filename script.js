@@ -131,9 +131,21 @@ function selectEpisode(element) {
 
 
 function setup() {
-  const allEpisodes = getAllEpisodes();
-  makePageForEpisodes(allEpisodes);
+  // const allEpisodes = getAllEpisodes();
+  // makePageForEpisodes(allEpisodes);
+
+  const showAPI = "https://api.tvmaze.com/shows/82/episodes";
+
+  fetch(showAPI)
+    //  Get a response and extract the JSON.
+    .then(response => response.json())
+
+    //  Do something with the JSON.
+    .then(data => makePageForEpisodes(data));
   
+
+
+
   const input = document.querySelector('input');
   input.addEventListener('input', searchForEpisode);
   
