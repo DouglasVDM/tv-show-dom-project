@@ -1,7 +1,18 @@
 // Add Episode Selector.
 let episodeSelector = document.getElementById("select-episode");
 
+// Add Show Selector.
 let showSelector = document.getElementById("select-show");
+// console.log("showSelector =", showSelector);
+
+// check if images are missing.
+function checkImage(image) {
+  if (image === null) {
+    return ""
+  } else {
+    return image;
+  }
+}
 
 // Function to create Episode Cards.
 function createEpisodeCard(rootElem, episodeInList) {
@@ -19,7 +30,7 @@ function createEpisodeCard(rootElem, episodeInList) {
   //  Create the heading for the card.
   let heading = document.createElement("h4");
   containerDiv.appendChild(heading);
-  containerDiv.textContent = `${episodeInList.name} 
+  heading.textContent = `${episodeInList.name} 
     - S${padLeadingZeros(episodeInList.season, 2)}
     E${padLeadingZeros(episodeInList.number, 2)}`;
 
@@ -65,12 +76,12 @@ document.body.appendChild(footerElement);
 footerElement.innerHTML = `The data originally comes from 
 <a href= "https://www.tvmaze.com/shows/82/game-of-thrones" target = "_blank">
 TvMaze
-</a>}`;
+</a>`;
 
 
 //  Given source code.
 function searchForEpisode(element) {
-  console.log("this is element",element.target.value);
+  console.log("this is episode element",element.target.value);
   
   const search = element.target.value.toUpperCase();
   
@@ -81,6 +92,8 @@ function searchForEpisode(element) {
   const rootElem = document.getElementById("root");  
   makePageForEpisodes(allEpisodes);
 }
+
+
 
 //  Callback for select option
 function selectEpisode(element) {
@@ -132,47 +145,133 @@ function selectEpisode(element) {
 
 
 function setup() {
-  // const allEpisodes = getAllEpisodes();
-  // makePageForEpisodes(allEpisodes);
+  const allShows = getAllShows();
+  const allEpisodes = getAllEpisodes();
+  makePageForEpisodes(allEpisodes, allShows);
 
-  const showAPI = "https://api.tvmaze.com/shows/82/episodes";
+  // const showAPI = "https://api.tvmaze.com/shows/82/episodes";
 
-  fetch(showAPI)
-    //  Get a response and extract the JSON.
-    .then(response => response.json())
+  // fetch(showAPI)
+  //   //  Get a response and extract the JSON.
+  //   .then(response => {
+  //   if(response.status >= 200 && response.status < 300){
 
-    //  Do something with the JSON.
-    .then(data => makePageForEpisodes(data));
-  
+  //           return response.json();}
 
+  //           else{
+  //               throw `Error ${response.status}:${response.text}`; 
+  //           }})
 
+    // //  Do something with the JSON.
+    // .then(data => makePageForEpisodes(data))
+    // .catch (error => alert(error));
+
+  // const input = document.querySelector('input');
+  // input.addEventListener('input', searchForEpisode);
+  // episodeSelector.addEventListener('change', selectEpisode);  
 
   const input = document.querySelector('input');
-  input.addEventListener('input', searchForEpisode);
+  input.addEventListener('input', searchForShow);
+  showSelector.addEventListener('change', selectShow);  
   
-  episodeSelector.addEventListener('change', selectEpisode);  
 }
 
 
 //  Given source code.
-function makePageForEpisodes(episodeList) {
+function makePageForEpisodes(episodeList, showList) {
   const rootElem = document.getElementById("root");
   rootElem.innerHTML = "";
-  // rootElem.textContent = `Got ${episodeList.length} episode(s)`;  
+  rootElem.textContent = `Found ${showList.length} show/s and ${episodeList.length} episode(s)`;  
 
   addOption({ season: 0, number: 0, name: "Show all episodes" });
+  addOptionShow({id: 0, name: "All Shows"})
   
+  showList.forEach(showInList => {
+    createShowCard(rootElem, showInList);
+    addOptionShow(showInList);  
+  })
 
 
   //  Looping through the episode in the list.
-  episodeList.forEach(episodeInList => {
-        
+  episodeList.forEach(episodeInList => {        
     //  Create div for the card.
     createEpisodeCard(rootElem, episodeInList);
-
     // Add Option for every episode.
     addOption(episodeInList);
     
   })    
-};  
+};
+
 window.onload = setup;
+
+/*-----Shows-----*/
+function createShowCard(rootElem, showInList) {
+  let showCard = document.createElement("div");
+  rootElem.appendChild(showCard);
+  showCard.className = "card";
+  showCard.setAttribute("id", `${showInList.id}`);
+
+  //  Create a div with class of container for styling later.
+  let containerDivShow = document.createElement("div");
+  showCard.appendChild(containerDivShow);
+  containerDivShow.className = "container";
+
+  //  Create the heading for the card.
+  let heading = document.createElement("h4");
+  containerDivShow.appendChild(heading);
+  heading.textContent = `${showInList.name}`;
+
+  //  Create the image for the card.
+  let imgElementShow = document.createElement("img");
+  containerDivShow.appendChild(imgElementShow);
+  imgElementShow.src = checkImage(showInList.image.medium);
+  imgElementShow.style.width = "100%";
+
+  //  Create the paragraph for the card.
+  let paragraphElement = document.createElement("p");
+  containerDivShow.appendChild(paragraphElement);
+  paragraphElement.innerHTML = showInList.summary;
+}
+
+function addOptionShow(showInList) {
+  let selectorOptionShow = document.createElement("option");
+  showSelector.appendChild(selectorOptionShow);
+  selectorOptionShow.setAttribute("value", `${showInList.id}`);
+  selectorOptionShow.textContent = `${showInList.name}`;
+}
+
+function searchForShow(element) {
+  console.log("this is episode element", element.target.value);
+
+  const search = element.target.value;
+
+  const allEpisodes = getAllEpisodes().filter(
+    element => element.name.includes(search));
+
+  const rootElem = document.getElementById("root");
+  makePageForEpisodes(allEpisodes);
+}
+searchForShow()
+
+function selectShow(element) {
+  console.log(element);
+
+  // document.getElementById(element.target.value).scrollIntoView();
+
+  // const selected = element.target.value;
+  // const selectedShow = selected;
+  // console.log(selectedShow);
+
+  // let allEpisodes = getAllEpisodes();
+  
+  // if (selectShow === showInList.name) {
+  //   allEpisodes = allEpisodes.filter(show => {
+  //     console.log(show);
+  //     return show.name === selectedShow;
+  //   });
+  // }
+
+  // console.log(allEpisodes.length);
+  // makePageForEpisodes(allEpisodes);
+}
+selectShow();
