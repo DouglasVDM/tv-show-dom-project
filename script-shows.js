@@ -1,22 +1,22 @@
 // Add Show Selector.
 let showSelector = document.getElementById("select-show");
-// console.log("showSelector =", showSelector);
+console.log("showSelector =", showSelector);
 
 // check if images are missing.
 function checkImage(image) {
   if (image === null) {
     return ""
   } else {
-    return image;
+    return image.medium;
   }
 }
 
 // Function to create Episode Cards.
-function createShowCard(rootElem1, showInList) {
-  // console.log("rootElem1:",rootElem1)
+function createShowCard(rootElem, showInList) {
+  // console.log("rootElem:",rootElem)
   // console.log("showInlist:",showInList.name)
   let cardDiv1 = document.createElement("div");
-  rootElem1.appendChild(cardDiv1);
+  rootElem.appendChild(cardDiv1);
   cardDiv1.className = "card";  
   cardDiv1.setAttribute("id", `${showInList.id}`);
   
@@ -33,7 +33,7 @@ function createShowCard(rootElem1, showInList) {
   //  Create the image for the card.
   let imgElement1 = document.createElement("img");
   containerDiv1.appendChild(imgElement1);
-  imgElement1.src = checkImage(showInList.image.medium);
+  imgElement1.src = checkImage(showInList.image);
   imgElement1.style.width = "100%";
 
   //  Create the paragraph for the card.
@@ -81,16 +81,18 @@ TvMaze
 function searchForShow(element) {
   console.log("this is show element",element.target.value);
   
-  const search = element.target.value;
-  
-  const allShows = getAllShows().filter(
-    element => element.includes(search));
+  const search = element.target.value;  // id of the show.
+  if (search == 0) {
+    setup1();
+  } else {
+    getEpisodes(search);
+  }
+  // const allShows = getAllShows().filter(
+  //   element => element.includes(search));
 
-  const rootElem1 = document.getElementById("root1");  
-  makePageForShows(allShows);
+  // const rootElem = document.getElementById("root1");  
+  // makePageForShows(allShows);
 }
-
-
 
 
 function setup1() {
@@ -115,35 +117,48 @@ function setup1() {
 //     .catch (error => alert(error));
 // 
   
-  const input = document.querySelector('input');
-  input.addEventListener('input', searchForShow);
+  // const input = document.querySelector('input');
+  // console.log("input:", input)
+  // input.addEventListener('input', searchForShow);
   
-  selectShow.addEventListener('change', showSelector);
+  showSelector.addEventListener('change', searchForShow);
 }
 
 
 //  Given source code.
 function makePageForShows(showList) {
-  console.log(`showListA: ${showList}`);
-  const rootElem1 = document.getElementById("root1");
-  rootElem1.innerHTML = "";
-  rootElem1.textContent = `Found ${showList.length} shows`;  
+  // console.log(`showListA: ${showList}`);
+  const rootElem = document.getElementById("root");
+  rootElem.innerHTML = "";
+  rootElem.textContent = `Found ${showList.length} shows`;
 
   addOptionShow({ id: 0, name: "Show all shows" });
-  
+
+  console.log(showList[0].name)
+  showList.sort((element1, element2) => {
+    let name1 = element1.name.toUpperCase();
+    let name2 = element2.name.toUpperCase();
+    if (name1 < name2) {
+      return -1;
+    } else if (name1 > name2) {
+      return 1;
+    }
+    return 0
+  });
+  console.log(showList[0].name)
 
 
   //  Looping through the shows in the list.
   showList.forEach(showInList => {
     // console.log(`showInList1: ${showInList.name}`);
     //  Create div for the card.
-    createShowCard(rootElem1, showInList);
+    createShowCard(rootElem, showInList);
 
     // Add Option for every show.
     addOptionShow(showInList);
     // console.log(`showInList3: ${showInList.name}`);
     
   });
-}
+  }
 
-// window.onload = setup1;
+window.onload = setup1;

@@ -1,19 +1,6 @@
 // Add Episode Selector.
 let episodeSelector = document.getElementById("select-episode");
 
-// Add Show Selector.
-let showSelector = document.getElementById("select-show");
-// console.log("showSelector =", showSelector);
-
-// check if images are missing.
-function checkImage(image) {
-  if (image === null) {
-    return ""
-  } else {
-    return image;
-  }
-}
-
 // Function to create Episode Cards.
 function createEpisodeCard(rootElem, episodeInList) {
   let cardDiv = document.createElement("div");
@@ -143,68 +130,64 @@ function selectEpisode(element) {
     makePageForEpisodes(allEpisodes);
 } 
 
+// function getEpisodes(showNumber) {
+//   console.log("showNumber:", showNumber)
+// }
 
-function setup() {
-  const allShows = getAllShows();
-  const allEpisodes = getAllEpisodes();
-  makePageForEpisodes(allEpisodes, allShows);
+function getEpisodes(showNumber) {
 
-  // const showAPI = "https://api.tvmaze.com/shows/82/episodes";
+  const showAPI = `https://api.tvmaze.com/shows/${showNumber}/episodes`;
 
-  // fetch(showAPI)
-  //   //  Get a response and extract the JSON.
-  //   .then(response => {
-  //   if(response.status >= 200 && response.status < 300){
+  fetch(showAPI)
+    //  Get a response and extract the JSON.
+    .then(response => {
+    if(response.status >= 200 && response.status < 300){
 
-  //           return response.json();}
+            return response.json();}
 
-  //           else{
-  //               throw `Error ${response.status}:${response.text}`; 
-  //           }})
+            else{
+                throw `Error ${response.status}:${response.text}`; 
+            }})
 
-    // //  Do something with the JSON.
-    // .then(data => makePageForEpisodes(data))
-    // .catch (error => alert(error));
-
-  // const input = document.querySelector('input');
-  // input.addEventListener('input', searchForEpisode);
-  // episodeSelector.addEventListener('change', selectEpisode);  
+    //  Do something with the JSON.
+    .then(data => makePageForEpisodes(data))
+    .catch (error => alert(error));
 
   const input = document.querySelector('input');
-  input.addEventListener('input', searchForShow);
-  showSelector.addEventListener('change', selectShow);  
+  input.addEventListener('input', searchForEpisode);
   
+  episodeSelector.addEventListener('change', selectEpisode);  
 }
 
 
 //  Given source code.
-function makePageForEpisodes(episodeList, showList) {
+function makePageForEpisodes(episodeList) {
+  // console.log(`episodeList: ${episodeList}`)
   const rootElem = document.getElementById("root");
   rootElem.innerHTML = "";
-  rootElem.textContent = `Found ${showList.length} show/s and ${episodeList.length} episode(s)`;  
+  // rootElem.textContent = `Got ${episodeList.length} episode(s)`;  
 
   addOption({ season: 0, number: 0, name: "Show all episodes" });
-  addOptionShow({id: 0, name: "All Shows"})
   
-  showList.forEach(showInList => {
-    createShowCard(rootElem, showInList);
-    addOptionShow(showInList);  
-  })
 
 
   //  Looping through the episode in the list.
-  episodeList.forEach(episodeInList => {        
+  episodeList.forEach(episodeInList => {
+        
     //  Create div for the card.
     createEpisodeCard(rootElem, episodeInList);
+
     // Add Option for every episode.
     addOption(episodeInList);
     
   })    
 };
 
-window.onload = setup;
+// window.onload = setup;
+
 
 /*-----Shows-----*/
+/*
 function createShowCard(rootElem, showInList) {
   let showCard = document.createElement("div");
   rootElem.appendChild(showCard);
@@ -241,7 +224,7 @@ function addOptionShow(showInList) {
 }
 
 function searchForShow(element) {
-  console.log("this is episode element", element.target.value);
+  console.log("this is episode element", element.value);
 
   const search = element.target.value;
 
@@ -263,7 +246,7 @@ function selectShow(element) {
   // console.log(selectedShow);
 
   // let allEpisodes = getAllEpisodes();
-  
+
   // if (selectShow === showInList.name) {
   //   allEpisodes = allEpisodes.filter(show => {
   //     console.log(show);
@@ -274,4 +257,4 @@ function selectShow(element) {
   // console.log(allEpisodes.length);
   // makePageForEpisodes(allEpisodes);
 }
-selectShow();
+*/
