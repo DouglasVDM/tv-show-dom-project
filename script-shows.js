@@ -83,19 +83,14 @@ function searchForShow(element) {
   
   const search = element.target.value;  // id of the show.
   if (search == 0) {
-    setup1();
+    setup();
   } else {
     getEpisodes(search);
   }
-  // const allShows = getAllShows().filter(
-  //   element => element.includes(search));
-
-  // const rootElem = document.getElementById("root1");  
-  // makePageForShows(allShows);
 }
 
 
-function setup1() {
+function setup() {
   const allShows = getAllShows();
   makePageForShows(allShows);
 // 
@@ -161,4 +156,4 @@ function makePageForShows(showList) {
   });
   }
 
-window.onload = setup1;
+window.onload = setup;

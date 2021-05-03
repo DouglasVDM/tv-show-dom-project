@@ -53,7 +53,7 @@ function padLeadingZeros(num, size) {
     return smallNumber
   }
 }  
-
+/*
 // Website where data originally comes from. 
 const dataSource = "TMaze.com";
 
@@ -64,7 +64,7 @@ footerElement.innerHTML = `The data originally comes from
 <a href= "https://www.tvmaze.com/shows/82/game-of-thrones" target = "_blank">
 TvMaze
 </a>`;
-
+*/
 
 //  Given source code.
 function searchForEpisode(element) {
@@ -184,77 +184,3 @@ function makePageForEpisodes(episodeList) {
 };
 
 // window.onload = setup;
-
-
-/*-----Shows-----*/
-/*
-function createShowCard(rootElem, showInList) {
-  let showCard = document.createElement("div");
-  rootElem.appendChild(showCard);
-  showCard.className = "card";
-  showCard.setAttribute("id", `${showInList.id}`);
-
-  //  Create a div with class of container for styling later.
-  let containerDivShow = document.createElement("div");
-  showCard.appendChild(containerDivShow);
-  containerDivShow.className = "container";
-
-  //  Create the heading for the card.
-  let heading = document.createElement("h4");
-  containerDivShow.appendChild(heading);
-  heading.textContent = `${showInList.name}`;
-
-  //  Create the image for the card.
-  let imgElementShow = document.createElement("img");
-  containerDivShow.appendChild(imgElementShow);
-  imgElementShow.src = checkImage(showInList.image.medium);
-  imgElementShow.style.width = "100%";
-
-  //  Create the paragraph for the card.
-  let paragraphElement = document.createElement("p");
-  containerDivShow.appendChild(paragraphElement);
-  paragraphElement.innerHTML = showInList.summary;
-}
-
-function addOptionShow(showInList) {
-  let selectorOptionShow = document.createElement("option");
-  showSelector.appendChild(selectorOptionShow);
-  selectorOptionShow.setAttribute("value", `${showInList.id}`);
-  selectorOptionShow.textContent = `${showInList.name}`;
-}
-
-function searchForShow(element) {
-  console.log("this is episode element", element.value);
-
-  const search = element.target.value;
-
-  const allEpisodes = getAllEpisodes().filter(
-    element => element.name.includes(search));
-
-  const rootElem = document.getElementById("root");
-  makePageForEpisodes(allEpisodes);
-}
-searchForShow()
-
-function selectShow(element) {
-  console.log(element);
-
-  // document.getElementById(element.target.value).scrollIntoView();
-
-  // const selected = element.target.value;
-  // const selectedShow = selected;
-  // console.log(selectedShow);
-
-  // let allEpisodes = getAllEpisodes();
-
-  // if (selectShow === showInList.name) {
-  //   allEpisodes = allEpisodes.filter(show => {
-  //     console.log(show);
-  //     return show.name === selectedShow;
-  //   });
-  // }
-
-  // console.log(allEpisodes.length);
-  // makePageForEpisodes(allEpisodes);
-}
-*/
