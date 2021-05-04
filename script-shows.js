@@ -11,6 +11,28 @@ function checkImage(image) {
   }
 }
 
+function showListing(show) {
+  const listCard = document.createElement("div");
+  // listCard.className = "card";
+  listCard.innerHTML = `
+      <div class="show-name-div">
+        <h1>${show.name}</h1>
+        <img src=${checkImage(show.image)} alt="">
+        <div class="summary-div">
+          ${show.summary}
+        </div>
+        <div class="show-info-div">
+          <ul>
+            <li><strong>Rated</strong>: ${show.rating.average}</li>
+            <i><strong>Genres</strong>: ${show.genres.join(" | ")}</i>            
+            <li><strong>Status</strong>: ${show.status}</li>
+            <li><strong>Runtime</strong>: ${show.runtime}</li>
+          </ul>
+        </div>
+      </div>`
+  document.getElementById("root").appendChild(listCard);
+}
+
 // Function to create Episode Cards.
 function createShowCard(rootElem, showInList) {
   // console.log("rootElem:",rootElem)
@@ -124,8 +146,8 @@ function setup() {
 function makePageForShows(showList) {
   // console.log(`showListA: ${showList}`);
   const rootElem = document.getElementById("root");
-  rootElem.innerHTML = "";
-  rootElem.textContent = `Found ${showList.length} shows`;
+  rootElem.innerHTML = ``;
+  rootElem.textContent = `Found ${showList.length} shows.`;
 
   addOptionShow({ id: 0, name: "Show all shows" });
 
@@ -145,14 +167,14 @@ function makePageForShows(showList) {
 
   //  Looping through the shows in the list.
   showList.forEach(showInList => {
-    // console.log(`showInList1: ${showInList.name}`);
-    //  Create div for the card.
-    createShowCard(rootElem, showInList);
+        
+    // createShowCard(rootElem, showInList);
+    showListing(showInList)
+        
 
     // Add Option for every show.
     addOptionShow(showInList);
-    // console.log(`showInList3: ${showInList.name}`);
-    
+    // console.log(`showInList3: ${showInList.name}`);        
   });
   }
 
