@@ -1,6 +1,8 @@
 // Add Episode Selector.
 let episodeSelector = document.getElementById("select-episode");
 
+let allEpisodes = null;
+
 // Function to create Episode Cards.
 function createEpisodeCard(rootElem, episodeInList) {
   let cardDiv = document.createElement("div");
@@ -24,7 +26,7 @@ function createEpisodeCard(rootElem, episodeInList) {
   //  Create the image for the card.
   let imgElement = document.createElement("img");
   containerDiv.appendChild(imgElement);
-  imgElement.src = episodeInList.image.medium;
+  imgElement.src = checkImage(episodeInList.image);
   imgElement.style.width = "100%";
 
   //  Create the paragraph for the card.
@@ -71,13 +73,12 @@ function searchForEpisode(element) {
   console.log("this is episode element",element.target.value);
   
   const search = element.target.value.toUpperCase();
-  
-  const allEpisodes = getAllEpisodes().filter(
+console.log(allEpisodes.length);  
+  const filteredEpisodes = allEpisodes.filter(
     element => element.name.toUpperCase().includes(search)
-    || element.summary.toUpperCase().includes(search));
+    || element.summary?.toUpperCase().includes(search));
 
-  const rootElem = document.getElementById("root");  
-  makePageForEpisodes(allEpisodes);
+  makePageForEpisodes(filteredEpisodes);
 }
 
 
@@ -109,7 +110,6 @@ function selectEpisode(element) {
   const selectedEpisode = selected.substring(selected.indexOf("-") + 1);
   console.log(selectedEpisode);
   
-  let allEpisodes = getAllEpisodes();
 
   /* PARSE INT
   The parseInt() function parses a string and returns an integer.
@@ -118,7 +118,7 @@ function selectEpisode(element) {
   should be parsed from a hexadecimal number to a decimal number.
   */  
   if (parseInt(selectedSeason) !== 0 && parseInt(selectedEpisode) !== 0) {     
-    allEpisodes = allEpisodes.filter(episode => {
+    let filteredEpisodes = filteredEpisodes.filter(episode => {
       // console.log(episode);
       return episode.season === parseInt(selectedSeason)
         &&
@@ -127,7 +127,7 @@ function selectEpisode(element) {
   }
 
   // console.log(allEpisodes.length);
-    makePageForEpisodes(allEpisodes);
+    makePageForEpisodes(filteredEpisodes);
 } 
 
 // function getEpisodes(showNumber) {
@@ -141,31 +141,43 @@ function getEpisodes(showNumber) {
   fetch(showAPI)
     //  Get a response and extract the JSON.
     .then(response => {
-    if(response.status >= 200 && response.status < 300){
+      if (response.status >= 200 && response.status < 300) {
 
-            return response.json();}
+        return response.json();
+      }
 
-            else{
-                throw `Error ${response.status}:${response.text}`; 
-            }})
+      else {
+        throw `Error ${response.status}:${response.text}`;
+      }
+    })
 
     //  Do something with the JSON.
-    .then(data => makePageForEpisodes(data))
+    .then(data => {
+      allEpisodes = data;
+      makePageForEpisodes(data);
+})
     .catch (error => alert(error));
 
-  const input = document.querySelector('input');
-  input.addEventListener('input', searchForEpisode);
+  // const input = document.querySelector('input');
+  // input.addEventListener('input', searchForEpisode);
   
   episodeSelector.addEventListener('change', selectEpisode);  
 }
 
+function clearEpisodeList() {
+  episodeSelector.innerHTML = "";
+}
 
 //  Given source code.
 function makePageForEpisodes(episodeList) {
+ 
   // console.log(`episodeList: ${episodeList}`)
   const rootElem = document.getElementById("root");
   rootElem.innerHTML = "";
   // rootElem.textContent = `Got ${episodeList.length} episode(s)`;  
+  clearEpisodeList();
+
+  toggleSearchEvent(searchForShow, searchForEpisode) // remove eventhandler for shows.
 
   addOption({ season: 0, number: 0, name: "Show all episodes" });
   

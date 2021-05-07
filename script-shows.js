@@ -1,6 +1,7 @@
 // Add Show Selector.
 let showSelector = document.getElementById("select-show");
-console.log("showSelector =", showSelector);
+
+let allShows = null;
 
 // check if images are missing.
 function checkImage(image) {
@@ -74,22 +75,6 @@ function addOptionShow({ id, name }) {  // Object destructuring. pass in the sho
   selectorOption1.textContent = name;
 }
 
-// //You can edit ALL of the code here
-
-// //Zero-pad numbers to two digits.
-// function padLeadingZeros(num, size) {
-//   let smallNumber = "" + num;
-//   if (smallNumber.length < size) {
-//     smallNumber = "0" + smallNumber;
-//     return smallNumber;
-//   } else {
-//     return smallNumber
-//   }
-// }  
-
-// Website where data originally comes from. 
-// const dataSource = "TMaze.com";
-
 //  Create footer and add link back to original site.
 let footerElement1 = document.createElement("footer");
 document.body.appendChild(footerElement1);
@@ -98,10 +83,8 @@ footerElement1.innerHTML = `The data originally comes from
 TvMaze
 </a>}`;
 
-
-//  Given source code.
-function searchForShow(element) {
-  console.log("this is show element",element.target.value);
+function selectShow(element) {
+  // console.log("element",element.target.value);
   
   const search = element.target.value;  // id of the show.
   if (search == 0) {
@@ -111,10 +94,10 @@ function searchForShow(element) {
   }
 }
 
-
 function setup() {
-  const allShows = getAllShows();
+   allShows = getAllShows();
   makePageForShows(allShows);
+  clearEpisodeList();
 // 
 //   const showAPI = "https://api.tvmaze.com/shows/82/episodes";
 
@@ -134,14 +117,24 @@ function setup() {
 //     .catch (error => alert(error));
 // 
   
-  // const input = document.querySelector('input');
-  // console.log("input:", input)
-  // input.addEventListener('input', searchForShow);
-  
-  showSelector.addEventListener('change', searchForShow);
+  toggleSearchEvent(searchForEpisode, searchForShow)
+  showSelector.addEventListener('change', selectShow);
 }
 
+function searchForShow(event) {
+  const { value } = event.target;
+  let filteredShow = allShows.filter(({ name, summary }) => name.toUpperCase().includes(value.toUpperCase()) || summary.toUpperCase().includes(value.toUpperCase())
+  )
+  makePageForShows(filteredShow);
+}
 
+function toggleSearchEvent(callbackToRemove, newCallback) {
+  const input = document.querySelector('input');
+  
+  input.removeEventListener("input", callbackToRemove, false)
+
+  input.addEventListener("input", newCallback);
+}
 //  Given source code.
 function makePageForShows(showList) {
   // console.log(`showListA: ${showList}`);
@@ -151,7 +144,7 @@ function makePageForShows(showList) {
 
   addOptionShow({ id: 0, name: "Show all shows" });
 
-  console.log(showList[0].name)
+
   showList.sort((element1, element2) => {
     let name1 = element1.name.toUpperCase();
     let name2 = element2.name.toUpperCase();
@@ -162,15 +155,13 @@ function makePageForShows(showList) {
     }
     return 0
   });
-  console.log(showList[0].name)
-
 
   //  Looping through the shows in the list.
   showList.forEach(showInList => {
         
     // createShowCard(rootElem, showInList);
     showListing(showInList)
-        
+    // createShowCard(rootElem, showInList)
 
     // Add Option for every show.
     addOptionShow(showInList);
