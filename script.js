@@ -118,16 +118,16 @@ function selectEpisode(element) {
   should be parsed from a hexadecimal number to a decimal number.
   */  
   if (parseInt(selectedSeason) !== 0 && parseInt(selectedEpisode) !== 0) {     
-    let filteredEpisodes = filteredEpisodes.filter(episode => {
+    let filteredEpisodes = allEpisodes.filter(episode => {
       // console.log(episode);
       return episode.season === parseInt(selectedSeason)
         &&
         episode.number === parseInt(selectedEpisode)
     });
+    makePageForEpisodes(filteredEpisodes);
   }
 
   // console.log(allEpisodes.length);
-    makePageForEpisodes(filteredEpisodes);
 } 
 
 // function getEpisodes(showNumber) {
