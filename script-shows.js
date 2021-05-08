@@ -1,6 +1,5 @@
 // Add Show Selector.
 let showSelector = document.getElementById("select-show");
-
 let allShows = null;
 
 // check if images are missing.
@@ -36,46 +35,58 @@ function showListing(show) {
 
 // Function to create Episode Cards.
 function createShowCard(rootElem, showInList) {
-  // console.log("rootElem:",rootElem)
-  // console.log("showInlist:",showInList.name)
+  let cardDiv1 = cardDiv(rootElem, showInList);  
+  //  Create a div with class of container for styling later.
+  let containerDiv1 = containerDiv(cardDiv1);
+  //  Create the heading1 for the card.
+  headerElement(containerDiv1, showInList);
+  //  Create the image for the card.
+  imageElement(containerDiv1, showInList);
+  //  Create the paragraph for the card.
+  paragraphElement(containerDiv1, showInList);
+}
+
+function cardDiv(rootElem, showInList) {
   let cardDiv1 = document.createElement("div");
   rootElem.appendChild(cardDiv1);
-  cardDiv1.className = "card";  
+  cardDiv1.className = "card";
   cardDiv1.setAttribute("id", `${showInList.id}`);
-  
-  //  Create a div with class of container for styling later.
+  return cardDiv1;
+}
+
+function containerDiv(cardDiv1) {
   let containerDiv1 = document.createElement("div");
   cardDiv1.appendChild(containerDiv1);
   containerDiv1.className = "container";
+  return containerDiv1;
+}
 
-  //  Create the heading1 for the card.
+function headerElement(containerDiv1, showInList) {
   let heading1 = document.createElement("h4");
   containerDiv1.appendChild(heading1);
   heading1.textContent = `${showInList.name}`;
+}
 
-  //  Create the image for the card.
+function imageElement(containerDiv1, showInList) {
   let imgElement1 = document.createElement("img");
   containerDiv1.appendChild(imgElement1);
   imgElement1.src = checkImage(showInList.image);
-  // imgElement1.style.width = "100%";
+}
 
-  //  Create the paragraph for the card.
+function paragraphElement(containerDiv1, showInList) {
   let paragraphElement1 = document.createElement("p");
   containerDiv1.appendChild(paragraphElement1);
-  paragraphElement1.innerHTML = showInList.summary;
+  paragraphElement1.innerHTML = showInList.summary.length;
 }
 
 //  add Option.showInList
-function addOptionShow({ id, name }) {  // Object destructuring. pass in the show object but I need only the 2 keys.
-  // console.log(name);
+function addOptionShow({ id, name }) {
   let selectorOption1 = document.createElement("option");
   showSelector.appendChild(selectorOption1);
-  // console.log("showSelector =", showSelector);
   selectorOption1.setAttribute("value", id)
   selectorOption1.textContent = name;
 }
 
-//  Create footer and add link back to original site.
 let footerElement1 = document.createElement("footer");
 document.body.appendChild(footerElement1);
 footerElement1.innerHTML = `The data originally comes from 
@@ -83,9 +94,7 @@ footerElement1.innerHTML = `The data originally comes from
 TvMaze
 </a>}`;
 
-function selectShow(element) {
-  // console.log("element",element.target.value);
-  
+function selectShow(element) {  
   const search = element.target.value;  // id of the show.
   if (search == 0) {
     setup();
@@ -95,56 +104,47 @@ function selectShow(element) {
 }
 
 function setup() {
-   allShows = getAllShows();
+  allShows = getAllShows();
   makePageForShows(allShows);
-  clearEpisodeList();
-// 
-//   const showAPI = "https://api.tvmaze.com/shows/82/episodes";
-
-//   fetch(showAPI)
-//     //  Get a response and extract the JSON.
-//     .then(response => {
-//     if(response.status >= 200 && response.status < 300){
-
-//             return response.json();}
-
-//             else{
-//                 throw `Error ${response.status}:${response.text}`; 
-//             }})
-
-//     //  Do something with the JSON.
-//     .then(data => makePageForShows(data))
-//     .catch (error => alert(error));
-// 
-  
-  toggleSearchEvent(searchForEpisode, searchForShow)
+  clearEpisodeList();  
+  toggleSearchEvent(searchForEpisode, searchForShow);
   showSelector.addEventListener('change', selectShow);
 }
 
 function searchForShow(event) {
   const { value } = event.target;
   let filteredShow = allShows.filter(({ name, summary }) => name.toUpperCase().includes(value.toUpperCase()) || summary.toUpperCase().includes(value.toUpperCase())
-  )
+  )  
   makePageForShows(filteredShow);
 }
 
 function toggleSearchEvent(callbackToRemove, newCallback) {
-  const input = document.querySelector('input');
-  
+  const input = document.querySelector('input');  
   input.removeEventListener("input", callbackToRemove, false)
-
   input.addEventListener("input", newCallback);
 }
-//  Given source code.
+
 function makePageForShows(showList) {
-  // console.log(`showListA: ${showList}`);
+  rootElement(showList);
+  addOptionShow({ id: 0, name: "Show all shows" });
+  alphabeticalSorting(showList);
+
+  //  Looping through the shows in the list.
+  showList.forEach(showInList => {     
+    showListing(showInList)
+    addOptionShow(showInList);
+  });
+  }
+
+window.onload = setup;
+
+function rootElement(showList) {
   const rootElem = document.getElementById("root");
   rootElem.innerHTML = ``;
   rootElem.textContent = `Found ${showList.length} shows.`;
+}
 
-  addOptionShow({ id: 0, name: "Show all shows" });
-
-
+function alphabeticalSorting(showList) {
   showList.sort((element1, element2) => {
     let name1 = element1.name.toUpperCase();
     let name2 = element2.name.toUpperCase();
@@ -153,20 +153,25 @@ function makePageForShows(showList) {
     } else if (name1 > name2) {
       return 1;
     }
-    return 0
+    return 0;
   });
+}
 
-  //  Looping through the shows in the list.
-  showList.forEach(showInList => {
-        
-    // createShowCard(rootElem, showInList);
-    showListing(showInList)
-    // createShowCard(rootElem, showInList)
+/*
 
-    // Add Option for every show.
-    addOptionShow(showInList);
-    // console.log(`showInList3: ${showInList.name}`);        
-  });
-  }
+    //  Higlight search words
+    const $paragraph = showInList.summary[0];
+    const $search = document.querySelector("input");
 
-window.onload = setup;
+    $search.addEventListener('input', (event) => {
+      console.log(event.target.value);
+      const searchText = event.target.value;
+      const regex = new RegExp(searchText, 'gi');
+
+      let text = $paragraph.innerHTML;
+      text = text.replace(/(<mark class="highlight">|<\/mark>)/gim, '');
+
+      const newText = text.replace(regex, '<mark class="highlight">$&</mark>');
+      $paragraph.innerHTML = newText;
+    });
+*/
