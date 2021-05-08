@@ -154,6 +154,9 @@ function getEpisodes(showNumber) {
     //  Do something with the JSON.
     .then(data => {
       allEpisodes = data;
+      
+      makeDropdownList(allEpisodes);
+
       makePageForEpisodes(data);
 })
     .catch (error => alert(error));
@@ -162,6 +165,12 @@ function getEpisodes(showNumber) {
   // input.addEventListener('input', searchForEpisode);
   
   episodeSelector.addEventListener('change', selectEpisode);  
+}
+
+function makeDropdownList(episodes) {
+  addOption({ season: 0, number: 0, name: "Show all episodes" });
+
+  episodes.forEach(episodeList => addOption(episodeList));
 }
 
 function clearEpisodeList() {
@@ -179,9 +188,6 @@ function makePageForEpisodes(episodeList) {
 
   toggleSearchEvent(searchForShow, searchForEpisode) // remove eventhandler for shows.
 
-  addOption({ season: 0, number: 0, name: "Show all episodes" });
-
-  allEpisodes.forEach(episodeList => addOption(episodeList));
   
 
 
