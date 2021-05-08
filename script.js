@@ -180,6 +180,8 @@ function makePageForEpisodes(episodeList) {
   toggleSearchEvent(searchForShow, searchForEpisode) // remove eventhandler for shows.
 
   addOption({ season: 0, number: 0, name: "Show all episodes" });
+
+  allEpisodes.forEach(episodeList => addOption(episodeList));
   
 
 
@@ -190,7 +192,7 @@ function makePageForEpisodes(episodeList) {
     createEpisodeCard(rootElem, episodeInList);
 
     // Add Option for every episode.
-    addOption(episodeInList);
+    // addOption(episodeInList);
     
   })    
 };
