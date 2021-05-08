@@ -27,7 +27,7 @@ function createEpisodeCard(rootElem, episodeInList) {
   let imgElement = document.createElement("img");
   containerDiv.appendChild(imgElement);
   imgElement.src = checkImage(episodeInList.image);
-  imgElement.style.width = "100%";
+  // imgElement.style.width = "100%";
 
   //  Create the paragraph for the card.
   let paragraphElement = document.createElement("p");

@@ -57,7 +57,7 @@ function createShowCard(rootElem, showInList) {
   let imgElement1 = document.createElement("img");
   containerDiv1.appendChild(imgElement1);
   imgElement1.src = checkImage(showInList.image);
-  imgElement1.style.width = "100%";
+  // imgElement1.style.width = "100%";
 
   //  Create the paragraph for the card.
   let paragraphElement1 = document.createElement("p");
