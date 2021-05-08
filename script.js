@@ -116,19 +116,20 @@ function selectEpisode(element) {
   The radix parameter is used to specify which numeral system to be used,
   for example, a radix of 16 (hexadecimal) indicates that the number in the string
   should be parsed from a hexadecimal number to a decimal number.
-  */  
-  if (parseInt(selectedSeason) !== 0 && parseInt(selectedEpisode) !== 0) {     
-    let filteredEpisodes = allEpisodes.filter(episode => {
+  */
+  let filteredEpisodes = allEpisodes;
+  
+  if (parseInt(selectedSeason) !== 0 && parseInt(selectedEpisode) !== 0) {
+   filteredEpisodes = allEpisodes.filter(episode => {
       // console.log(episode);
       return episode.season === parseInt(selectedSeason)
         &&
         episode.number === parseInt(selectedEpisode)
-    });
-    makePageForEpisodes(filteredEpisodes);
+    })
   }
+  makePageForEpisodes(filteredEpisodes);
+}
 
-  // console.log(allEpisodes.length);
-} 
 
 // function getEpisodes(showNumber) {
 //   console.log("showNumber:", showNumber)
@@ -168,6 +169,9 @@ function getEpisodes(showNumber) {
 }
 
 function makeDropdownList(episodes) {
+  console.log(episodes);
+
+  clearEpisodeList();
   addOption({ season: 0, number: 0, name: "Show all episodes" });
 
   episodes.forEach(episodeList => addOption(episodeList));
@@ -184,7 +188,6 @@ function makePageForEpisodes(episodeList) {
   const rootElem = document.getElementById("root");
   rootElem.innerHTML = "";
   // rootElem.textContent = `Got ${episodeList.length} episode(s)`;  
-  clearEpisodeList();
 
   toggleSearchEvent(searchForShow, searchForEpisode) // remove eventhandler for shows.
 
